@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101014">
+<title>Bá Kai Pet Shop | Steal an Egg</title>
+<style>
+:root{--bg:#0b0b10;--panel:#15151d;--panel2:#20202a;--red:#ef3340;--text:#f7f7fb;--muted:#a5a5b4;--line:#30303b;--gold:#ffc857}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#251016 0,#0b0b10 48%);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{width:min(1100px,100% - 28px);margin:auto}.top{display:flex;align-items:center;gap:12px;padding:22px 0}.logo{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#ff5964,#a90018);font-size:25px;box-shadow:0 8px 30px #ef334033}.brand{font-weight:900;font-size:clamp(18px,4vw,25px);letter-spacing:.3px}.sub{font-size:12px;color:var(--muted);letter-spacing:1.4px}.cart{margin-left:auto;background:var(--panel2);padding:9px 12px;border:1px solid var(--line);border-radius:12px;font-size:13px}
+.hero{padding:26px 22px;border:1px solid #49232a;border-radius:22px;background:linear-gradient(115deg,#211116,#15151d 65%);margin-bottom:22px}.eyebrow{color:#ff707a;font-weight:800;font-size:12px;letter-spacing:1.5px}.hero h1{font-size:clamp(28px,6vw,46px);line-height:1.08;margin:10px 0}.hero p{color:#c4c4ce;max-width:620px;margin:10px 0 0}.toolbar{display:grid;grid-template-columns:1fr 180px;gap:10px;margin:18px 0}.field,select,button{font:inherit}.field,select{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text);min-height:46px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0}.section-head h2{margin:0;font-size:20px}.muted{color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{background:linear-gradient(180deg,#191922,#121218);border:1px solid var(--line);border-radius:18px;overflow:hidden;min-width:0}.pet-art{height:132px;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,#5a202b,#20202a 58%,#15151d);font-size:54px}.pet-body{padding:14px}.pet-name{font-weight:800;font-size:17px;overflow-wrap:anywhere}.tag{display:inline-block;margin-top:6px;padding:3px 8px;border-radius:20px;background:#2b2026;color:#ff9aa1;font-size:11px}.price{font-size:19px;color:var(--gold);font-weight:900;margin:12px 0}.actions{display:flex;gap:7px}.btn{border:0;border-radius:10px;padding:10px 12px;font-weight:800;cursor:pointer}.primary{background:var(--red);color:white;flex:1}.secondary{background:var(--panel2);color:white;border:1px solid var(--line)}.empty{padding:28px;text-align:center;border:1px dashed var(--line);border-radius:16px;color:var(--muted);grid-column:1/-1}.admin{margin:30px 0;background:#121219;border:1px solid var(--line);border-radius:18px;padding:18px}.admin summary{font-weight:850;cursor:pointer}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.formgrid label{font-size:13px;color:var(--muted);display:block}.formgrid input,.formgrid select{margin-top:5px}.wide{grid-column:1/-1}.notice{font-size:12px;color:var(--muted);margin-top:12px}.footer{padding:22px 0 34px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:28px}.pill{background:#23232d;border-radius:9px;padding:5px 8px;font-size:12px}
+@media(max-width:720px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.toolbar{grid-template-columns:1fr}.pet-art{height:112px}.pet-body{padding:11px}.price{font-size:17px}.hero{padding:22px 17px}}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.pet-art{height:130px}.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="logo">🥚</div>
+  <div><div class="brand">BÁ KAI PET SHOP</div><div class="sub">STEAL AN EGG · PET MARKET</div></div>
+  <div class="cart" id="count">0 pet</div>
+</header>
+<section class="hero">
+  <div class="eyebrow">WELCOME TO THE PET MARKET</div>
+  <h1>Săn pet xịn.<br>Chốt giá rõ ràng.</h1>
+  <p>Danh sách pet Steal an Egg do shop tự cập nhật. Giá hiển thị bằng VNĐ và tự sắp xếp từ thấp đến cao.</p>
+</section>
+<div class="toolbar">
+  <input class="field" id="search" placeholder="🔎  Tìm pet theo tên..." aria-label="Tìm pet">
+  <select id="sort" aria-label="Sắp xếp giá"><option value="asc">Giá: thấp → cao</option><option value="desc">Giá: cao → thấp</option></select>
+</div>
+<div class="section-head"><h2>Pet đang bán</h2><span class="pill" id="results">0 sản phẩm</span></div>
+<main class="grid" id="products"></main>
+
+<details class="admin">
+  <summary>⚙️ Quản lý danh sách pet (trên thiết bị này)</summary>
+  <p class="muted">Thêm pet và nhập giá bán VNĐ. Dữ liệu được lưu trong trình duyệt của thiết bị này; khách truy cập trên thiết bị khác sẽ không tự thấy thay đổi.</p>
+  <form id="petForm">
+    <input type="hidden" id="editId">
+    <div class="formgrid">
+      <label>Tên pet<input class="field" id="petName" required maxlength="70" placeholder="Ví dụ: Tên pet"></label>
+      <label>Giá bán (VNĐ)<input class="field" id="petPrice" required type="number" min="1" step="1" placeholder="Ví dụ: 50000"></label>
+      <label>Giá trị pet trong game (tuỳ chọn)<input class="field" id="petValue" class="field" maxlength="30" placeholder="Ví dụ: 1B, 100B+"></label>
+      <label>Biểu tượng<select id="petEmoji" class="field"><option>🥚</option><option>🐉</option><option>🦊</option><option>🐲</option><option>🐺</option><option>🐸</option><option>✨</option><option>👑</option></select></label>
+      <div class="wide actions"><button class="btn primary" type="submit" id="saveBtn">+ Thêm pet</button><button class="btn secondary" type="button" id="cancelBtn" hidden>Huỷ sửa</button></div>
+    </div>
+  </form>
+  <p class="notice">Lưu ý: đây là trang tĩnh mẫu, chưa có thanh toán trực tuyến, tài khoản quản trị riêng hay đồng bộ dữ liệu giữa khách truy cập.</p>
+</details>
+<footer class="footer">Bá Kai Pet Shop là shop do người dùng quản lý, không phải website chính thức của Roblox. Hãy kiểm tra quy định của game/nền tảng và xác nhận giao dịch an toàn trước khi mua bán.</footer>
+</div>
+<script>
+const KEY='baKaiPetShop_v1';
+const initial=[
+ {id:'sample1',name:'Pet mẫu — chỉnh sửa tên',price:10000,value:'1B',emoji:'🥚'},
+ {id:'sample2',name:'Pet mẫu hiếm — chỉnh sửa tên',price:50000,value:'10B',emoji:'🐉'},
+ {id:'sample3',name:'Pet mẫu siêu hiếm — chỉnh sửa tên',price:100000,value:'100B+',emoji:'👑'}
+];
+let pets=[];
+try{pets=JSON.parse(localStorage.getItem(KEY)||'null')||initial.slice()}catch(e){pets=initial.slice()}
+const $=id=>document.getElementById(id);
+const money=n=>new Intl.NumberFormat('vi-VN',{style:'currency',currency:'VND',maximumFractionDigits:0}).format(n);
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(pets))}catch(e){alert('Trình duyệt không cho lưu dữ liệu. Hãy bật lưu trữ trang web.')}render()}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){
+ const q=$('search').value.trim().toLowerCase();
+ const direction=$('sort').value;
+ const list=pets.filter(p=>p.name.toLowerCase().includes(q)||(p.value||'').toLowerCase().includes(q)).sort((a,b)=>direction==='asc'?a.price-b.price:b.price-a.price);
+ $('count').textContent=pets.length+' pet';
+ $('results').textContent=list.length+' sản phẩm';
+ $('products').innerHTML=list.length?list.map(p=>`<article class="card"><div class="pet-art" aria-hidden="true">${esc(p.emoji||'🥚')}</div><div class="pet-body"><div class="pet-name">${esc(p.name)}</div>${p.value?`<span class="tag">Giá trị game: ${esc(p.value)}</span>`:''}<div class="price">${money(p.price)}</div><div class="actions"><button class="btn primary" onclick="orderPet('${p.id}')">Đặt mua</button><button class="btn secondary" aria-label="Sửa ${esc(p.name)}" onclick="editPet('${p.id}')">Sửa</button></div><button class="btn secondary" style="width:100%;margin-top:7px" onclick="deletePet('${p.id}')">Xoá khỏi shop</button></div></article>`).join(''):'<div class="empty">Không tìm thấy pet. Anh thử từ khoá khác hoặc thêm pet ở mục Quản lý nhé.</div>';
+}
+window.orderPet=function(id){const p=pets.find(x=>x.id===id);if(!p)return;const msg=`Xin chào Bá Kai Pet Shop! Tôi muốn đặt mua: ${p.name} — ${money(p.price)}. Giá trị trong game: ${p.value||'chưa ghi'}. Vui lòng hướng dẫn đặt hàng.`;const blob=new Blob([msg],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='don-hang-ba-kai.txt';a.click();URL.revokeObjectURL(url);alert('Đã tải mẫu nội dung đơn hàng. Gửi nội dung này cho shop qua kênh liên hệ mà anh sẽ công bố. Website chưa tự gửi đơn hàng.');};
+window.editPet=function(id){const p=pets.find(x=>x.id===id);if(!p)return;$('editId').value=p.id;$('petName').value=p.name;$('petPrice').value=p.price;$('petValue').value=p.value||'';$('petEmoji').value=p.emoji||'🥚';$('saveBtn').textContent='Lưu thay đổi';$('cancelBtn').hidden=false;document.querySelector('.admin').open=true;$('petName').focus();};
+window.deletePet=function(id){const p=pets.find(x=>x.id===id);if(p&&confirm('Xoá "'+p.name+'" khỏi danh sách?')){pets=pets.filter(x=>x.id!==id);persist();}};
+$('petForm').addEventListener('submit',e=>{e.preventDefault();const name=$('petName').value.trim(),price=Number($('petPrice').value);if(!name||!Number.isSafeInteger(price)||price<1){alert('Nhập tên pet và giá VNĐ hợp lệ nhé.');return}const id=$('editId').value;const item={id:id||('pet'+Date.now()),name,price,value:$('petValue').value.trim(),emoji:$('petEmoji').value};if(id)pets=pets.map(p=>p.id===id?item:p);else pets.push(item);persist();$('petForm').reset();$('editId').value='';$('saveBtn').textContent='+ Thêm pet';$('cancelBtn').hidden=true;});
+$('cancelBtn').addEventListener('click',()=>{$('petForm').reset();$('editId').value='';$('saveBtn').textContent='+ Thêm pet';$('cancelBtn').hidden=true});
+$('search').addEventListener('input',render);$('sort').addEventListener('change',render);render();
+</script>
+</body>
+</html>
